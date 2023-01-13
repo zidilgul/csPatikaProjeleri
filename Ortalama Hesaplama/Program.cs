@@ -1,97 +1,63 @@
 ﻿using System;
 
-namespace AlanHesaplama
+namespace OrtalamaHesaplama
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            int n = 0;
-            while(n!=-1)
-            {
-                Console.WriteLine("1- Kare");
-                Console.WriteLine("2- Dikdörtgen");
-                Console.WriteLine("3- Üçgen");
-                Console.WriteLine("4- Daire");
-                Console.WriteLine("Çıkmak için -1 tuşlayın");
-
-                Console.Write("Şekil numarası giriniz: ");
-                bool isNum = int.TryParse(Console.ReadLine(), out n);
-                Methods inst = new Methods();
-
-
-                switch (n)
-                {
-                    case -1:
-                        Console.WriteLine("Program sona erdi");
-                        break;
-                    case 1:
-                        inst.CalculateAreaSquare();
-                        break;
-                    case 2:
-                        inst.CalculateAreaRectangle();
-                        break;
-                    case 3:
-                        inst.CalculateAreaTriangle();
-                        break;
-                    case 4:
-                        inst.CalculateAreaCircle();
-                        break;
-                    default: 
-                        Console.WriteLine("Hatalı giriş yaptınız");
-                        break;
-
-                }
-            }
+            Console.Write("Please enter the number of elements of the fibonacci sequence: ");
+            int n = int.Parse(Console.ReadLine());
+            int[] fibonacci = new int[n];
+            Methods instance = new Methods();
+            fibonacci = instance.CreateFibonacci(n);
+            instance.WriteFibonacci(fibonacci);
+            instance.CalculateAvg(fibonacci);
         }
     }
 
-    public class Methods
+    class Methods
     {
-        public void CalculateAreaSquare()
+        public int[] CreateFibonacci(int n)
         {
-            Console.Write("Kenar uzunluğu giriniz: ");
-            int k = int.Parse(Console.ReadLine());
+            int[] fibonacci = new int[n];
 
-            int area = k * k;
+            for (int i = 0; i < n; i++)
+            {
+                if (i < 2)
+                    for (int j = 0; j < n; j++)
+                    {
+                        fibonacci[j] = 1;
+                    }
+                else
+                    fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
+            }
 
-            Console.WriteLine("Karenin alanı: " + area);
+            return fibonacci;
         }
 
-        public void CalculateAreaRectangle()
+        public void CalculateAvg(int[] fibonaci)
         {
-            Console.Write("1.kenar uzunluğu giriniz: ");
-            int k = int.Parse(Console.ReadLine());
-            Console.Write("2.kenar uzunluğu giriniz: ");
-            int m = int.Parse(Console.ReadLine());
+            double avg = 0;
 
-            int area = k * m;
+            for (int i = 0; i < fibonaci.Length; i++)
+            {
+                avg += fibonaci[i];
+            }
 
-            Console.WriteLine("Karenin alanı: " + area);
+            avg /= fibonaci.Length;
+
+            Console.WriteLine("Sequence average: " + avg);
         }
 
-        public void CalculateAreaTriangle()
+        public void WriteFibonacci(int[] fibonaci)
         {
-            Console.Write("Kenar uzunluğu giriniz: ");
-            int k = int.Parse(Console.ReadLine());
-            Console.Write("Yükseklik giriniz: ");
-            int h = int.Parse(Console.ReadLine());
-
-            int area = (k * h) / 2;
-
-            Console.WriteLine("Karenin alanı: " + area);
+            Console.WriteLine("Fibonacci sequence: ");
+            for (int i = 0; i < fibonaci.Length; i++)
+            {
+                Console.Write(fibonaci[i] + " ");
+            }
+            Console.WriteLine();
         }
-
-        public void CalculateAreaCircle()
-        {
-            Console.Write("Yarıçap uzunluğu giriniz: ");
-            int r = int.Parse(Console.ReadLine());
-            const double pi = 3.14;
-            double area = (pi * r * r);
-
-            Console.WriteLine("Karenin alanı: " + area);
-        }
-
     }
-    
 }
